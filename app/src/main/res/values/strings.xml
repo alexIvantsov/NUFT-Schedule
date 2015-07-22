@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">NUFT Schedule</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_search">Search</string>
+
+    <string-array name="screen_array">
+        <item>List of groups</item>
+        <item>Update schedule</item>
+        <item>About aplication</item>
+    </string-array>
+
+    <string-array name="time_lessons">
+        <item>8.15 - 9.35</item>
+        <item>9.50 - 11.10</item>
+        <item>11.20 - 12.40</item>
+        <item>13.20 - 14.40</item>
+        <item>14.50 - 16.10</item>
+        <item>16.30- 17.50</item>
+        <item>18.00 - 19.20</item>
+        <item>19.30 - 20.50</item>
+    </string-array>
+
+    <string-array name="day_name">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thirsday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+</resources>
