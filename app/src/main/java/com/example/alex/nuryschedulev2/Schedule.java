@@ -1,5 +1,9 @@
 package com.example.alex.nuryschedulev2;
 
+import com.example.alex.nuryschedulev2.Model.Day;
+import com.example.alex.nuryschedulev2.Model.Group;
+import com.example.alex.nuryschedulev2.Model.Lesson;
+
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -32,7 +36,7 @@ public class Schedule {
 
     }
 
-    public void getiSchedule(String groupName){
+    public void getSchedule(String groupName){
         splitSchedule();
     }
 

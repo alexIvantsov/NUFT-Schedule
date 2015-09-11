@@ -1,6 +1,5 @@
 package com.example.alex.nuryschedulev2;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.alex.nuryschedulev2.Model.Group;
+
 import java.util.ArrayList;
 
 /**
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class MyListGroupFragment extends ListFragment {
 
     private static ArrayList<Group> groups;
+    private static String FRAGMENT_INSTANCE_NAME = "fragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,7 @@ public class MyListGroupFragment extends ListFragment {
         groups.get(position).setSelected(true);
 
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+        fm.beginTransaction().replace(R.id.fragmentContainer, fragment, FRAGMENT_INSTANCE_NAME).commit();
 
     }
 }

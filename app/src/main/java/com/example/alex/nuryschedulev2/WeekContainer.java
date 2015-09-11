@@ -10,6 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.alex.nuryschedulev2.Model.Day;
+import com.example.alex.nuryschedulev2.Model.Lesson;
+
 import java.util.ArrayList;
 
 /**

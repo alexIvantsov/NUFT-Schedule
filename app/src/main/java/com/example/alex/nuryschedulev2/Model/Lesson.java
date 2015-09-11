@@ -1,9 +1,4 @@
-package com.example.alex.nuryschedulev2;
-
-import android.annotation.TargetApi;
-import android.os.Build;
-
-import java.io.Serializable;
+package com.example.alex.nuryschedulev2.Model;
 
 /**
  * Created by alex on 12.06.15.

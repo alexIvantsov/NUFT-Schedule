@@ -31,6 +31,9 @@ public abstract class MainActivity extends ActionBarActivity {
     private CharSequence mTitle;
     public static Activity activity;
 
+    private static String FRAGMENT_INSTANCE_NAME = "fragment";
+    Fragment fragment = null;
+
     protected abstract Fragment getCurrentFragment();
 
     @Override
@@ -85,8 +88,11 @@ public abstract class MainActivity extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = getCurrentFragment();
-        fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
+
+        fragment = (Fragment) fm.findFragmentByTag(FRAGMENT_INSTANCE_NAME);
+        if (fragment == null)
+            fragment = getCurrentFragment();
+        fm.beginTransaction().add(R.id.fragmentContainer, fragment, FRAGMENT_INSTANCE_NAME).commit();
 
     }
 

@@ -21,6 +21,10 @@ public class ViewPagerFragment extends Fragment {
     private static ViewPager mViewPager;
     private static FrameLayout progress;
 
+    public ViewPagerFragment (){
+        this.setRetainInstance(true);
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

@@ -1,4 +1,4 @@
-package com.example.alex.nuryschedulev2;
+package com.example.alex.nuryschedulev2.Model;
 
 import android.content.Context;
 
