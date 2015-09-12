@@ -24,7 +24,7 @@ import java.util.Random;
 public class MyListGroupFragment extends ListFragment {
 
     private static ArrayList<Group> groups;
-    private static String FRAGMENT_INSTANCE_NAME = "fragment";
+    public static String FRAGMENT_ID = "fragment with update";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public class MyListGroupFragment extends ListFragment {
         groups.get(position).setSelected(true);
 
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.fragmentContainer, fragment, FRAGMENT_INSTANCE_NAME).commit();
+        fm.beginTransaction().replace(R.id.fragmentContainer, fragment, FRAGMENT_ID).commit();
 
     }
 }

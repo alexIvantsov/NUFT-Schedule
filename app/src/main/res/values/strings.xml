@@ -1,8 +1,5 @@
 <resources>
-    <string name="app_name">NUFT Schedule</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_search">Search</string>
+    <string name="app_name">Розклад ХЕТОП</string>
 
     <string-array name="screen_array">
         <item>Список груп</item>

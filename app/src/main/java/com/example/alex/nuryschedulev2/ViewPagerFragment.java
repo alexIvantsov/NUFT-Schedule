@@ -20,6 +20,7 @@ public class ViewPagerFragment extends Fragment {
 
     private static ViewPager mViewPager;
     private static FrameLayout progress;
+    public String groupName;
 
     public ViewPagerFragment (){
         this.setRetainInstance(true);
@@ -29,7 +30,7 @@ public class ViewPagerFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
-        final String groupName = bundle.getString("Name");
+        groupName = bundle.getString("Name");
         progress = (FrameLayout)getView().findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
         if(Schedule.schedule == null || !Schedule.schedule.getGroupName().equals(groupName)) {
@@ -75,6 +76,12 @@ public class ViewPagerFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_with_view_pager, container, false);
         return rootView;
+    }
+
+    public void update(){
+        progress.setVisibility(View.GONE);
+        (new AsTask()).execute(groupName);
+        progress.setVisibility(View.VISIBLE);
     }
 
     private class AsTask extends AsyncTask<String, Void, Void> {
