@@ -5,9 +5,10 @@
     <string name="action_search">Search</string>
 
     <string-array name="screen_array">
-        <item>List of groups</item>
-        <item>Update schedule</item>
-        <item>About aplication</item>
+        <item>Список груп</item>
+        <item>Оновити розклад</item>
+        <item>Про додаток</item>
+        <item>Карта університету</item>
     </string-array>
 
     <string-array name="time_lessons">
@@ -22,13 +23,13 @@
     </string-array>
 
     <string-array name="day_name">
-        <item>Sunday</item>
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thirsday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
+        <item>Неділя</item>
+        <item>Понеділок</item>
+        <item>Вівторок</item>
+        <item>Середа</item>
+        <item>Четверг</item>
+        <item>Пятниця</item>
+        <item>Субота</item>
     </string-array>
 
     <string name="drawer_open">Open navigation drawer</string>
