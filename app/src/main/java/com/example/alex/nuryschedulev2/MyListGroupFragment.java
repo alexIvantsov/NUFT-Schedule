@@ -61,6 +61,10 @@ public class MyListGroupFragment extends ListFragment {
             //First letter of group name in color circle
             char [] letter = groupName.toCharArray();
             String firstLetter = String.valueOf(letter[0]);
+            //because first row has "begin file" char
+            if (position == 0)
+                firstLetter = String.valueOf(letter[1]);
+
             TextView firstLetterView = (TextView)convertView.findViewById(R.id.First_Lettter_Group_Name);
             firstLetterView.setText(firstLetter);
             FrameLayout quard = (FrameLayout)convertView.findViewById(R.id.color_letter);

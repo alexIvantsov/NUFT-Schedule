@@ -9,12 +9,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 public abstract class MainActivity extends ActionBarActivity {
 
@@ -43,13 +48,15 @@ public abstract class MainActivity extends ActionBarActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        ImageView imageView = (new ImageView(getApplicationContext()));
-        imageView.setImageResource(R.drawable.menu_image_1);
-        mDrawerList.addHeaderView(imageView);
+        String currentDateTimeString = DateFormat.getDateInstance().format(new Date());
 
-        ListView.LayoutParams lp = new ListView.LayoutParams(
-                new ListView.LayoutParams(ListView.LayoutParams.FILL_PARENT, 281));
-        imageView.setLayoutParams(lp);
+        View headerView = getLayoutInflater().inflate(R.layout.drawer_list_header, null);
+        ImageView imageView = (ImageView)headerView.findViewById(R.id.imageView);
+        imageView.setImageResource(R.drawable.menu_image_1);
+        TextView currentDate = (TextView)headerView.findViewById(R.id.current_date);
+        currentDate.setText(currentDateTimeString);
+        mDrawerList.addHeaderView(headerView);
+
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mScreenTitles));

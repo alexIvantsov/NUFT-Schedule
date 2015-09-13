@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Розклад ХЕТОП</string>
     <string name="no_internet_access">Немає доступу до інтернет!</string>
+    <string name="about_application">Lessons schedule for HETOP students \r\n Version 1.0</string>
 
     <string-array name="screen_array">
         <item>Список груп</item>

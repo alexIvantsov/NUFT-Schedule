@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="46dp"
-        android:text="Developer Oleksandr Ivantsov"
+        android:text="@string/about_application"
         android:id="@+id/tf"
-        android:textSize="25dp" />
+        android:textSize="15dp" />
 </LinearLayout>
