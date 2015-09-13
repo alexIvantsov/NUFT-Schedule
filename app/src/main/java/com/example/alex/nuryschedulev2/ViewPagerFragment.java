@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -34,8 +35,7 @@ public class ViewPagerFragment extends Fragment {
         progress = (FrameLayout)getView().findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
         if(Schedule.schedule == null || !Schedule.schedule.getGroupName().equals(groupName)) {
-            (new AsTask()).execute(groupName);
-            progress.setVisibility(View.VISIBLE);
+            update();
         }
 
         FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -79,9 +79,19 @@ public class ViewPagerFragment extends Fragment {
     }
 
     public void update(){
-        progress.setVisibility(View.GONE);
-        (new AsTask()).execute(groupName);
-        progress.setVisibility(View.VISIBLE);
+        if(InternetAccess.isOnline(this.getActivity().getApplicationContext())) {
+            progress.setVisibility(View.GONE);
+            (new AsTask()).execute(groupName);
+            progress.setVisibility(View.VISIBLE);
+        }else{
+            // message about no internet access
+            Toast toast = Toast.makeText(this.getActivity().getApplicationContext(), R.string.no_internet_access, Toast.LENGTH_SHORT);
+            toast.show();
+
+            //return to the first fragment
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.fragmentContainer, new MyListGroupFragment()).commit();
+        }
     }
 
     private class AsTask extends AsyncTask<String, Void, Void> {
