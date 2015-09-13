@@ -128,6 +128,9 @@ public abstract class MainActivity extends ActionBarActivity {
             case 3:
                 fragment = new AboutFragment();
                 break;
+            case 4:
+                fragment = new MapUniversity();
+                break;
             default:
                 break;
         }
