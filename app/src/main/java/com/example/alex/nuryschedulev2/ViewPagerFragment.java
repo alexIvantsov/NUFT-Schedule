@@ -7,12 +7,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.astuetz.PagerSlidingTabStrip;
 
 /**
  * Created by alex on 11.06.15.
@@ -32,11 +35,6 @@ public class ViewPagerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         groupName = bundle.getString("Name");
-        progress = (FrameLayout)getView().findViewById(R.id.progress);
-        progress.setVisibility(View.GONE);
-        if(Schedule.schedule == null || !Schedule.schedule.getGroupName().equals(groupName)) {
-            update();
-        }
 
         FragmentManager fm = getActivity().getSupportFragmentManager();
         mViewPager = (ViewPager)view.findViewById(R.id.view_pager);
@@ -56,6 +54,12 @@ public class ViewPagerFragment extends Fragment {
                 return POSITION_NONE;
             }
 
+            @Override
+            public CharSequence getPageTitle(int position) {
+                // Generate title based on item position
+                return getResources().getStringArray(R.array.number_week)[position];
+            }
+
         });
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -63,12 +67,17 @@ public class ViewPagerFragment extends Fragment {
             public void onPageScrolled(int pos, float posOffset, int posOffsetPixels) {}
             public void onPageSelected(int pos) {}
         });
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        // Give the PagerSlidingTabStrip the ViewPager
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip)getView().findViewById(R.id.tabs);
+        // Attach the view pager to the tab strip
+        tabsStrip.setViewPager(mViewPager);
 
+        progress = (FrameLayout)getView().findViewById(R.id.progress);
+        progress.setVisibility(View.GONE);
+        if(Schedule.schedule == null || !Schedule.schedule.getGroupName().equals(groupName)) {
+            update();
+        }
     }
 
     @Override
@@ -113,6 +122,29 @@ public class ViewPagerFragment extends Fragment {
             mViewPager.getAdapter().notifyDataSetChanged();
             progress.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                update();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+
     }
 
 }

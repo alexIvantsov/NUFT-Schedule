@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             app:theme="@style/ToolbarStyle"
             android:alpha="1"
-            android:background="#ffe10207"
+            android:background="@color/toolBar_color"
             android:layout_gravity="center_horizontal|top" />
 
         <FrameLayout

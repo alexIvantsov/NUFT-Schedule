@@ -21,6 +21,11 @@
         <item>19.30 - 20.50</item>
     </string-array>
 
+    <string-array name="number_week">
+        <item>Перший тиждень</item>
+        <item>Другий тиждень</item>
+    </string-array>
+
     <string-array name="day_name">
         <item>Неділя</item>
         <item>Понеділок</item>
