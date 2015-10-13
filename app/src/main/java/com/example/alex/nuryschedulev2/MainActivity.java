@@ -1,6 +1,7 @@
 package com.example.alex.nuryschedulev2;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -9,21 +10,24 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.alex.nuryschedulev2.Model.Lesson;
+import com.example.alex.nuryschedulev2.Schedule.ScheduleFactory;
+import com.example.alex.nuryschedulev2.Schedule.Serealisation;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public abstract class MainActivity extends ActionBarActivity {
 
@@ -35,6 +39,7 @@ public abstract class MainActivity extends ActionBarActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     public static Activity activity;
+    public static Context context;
 
     Fragment fragment = null;
 
@@ -44,7 +49,12 @@ public abstract class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // remove title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //initial timeLessonArray
+        if(Lesson.timeLessonList == null){
+            Lesson.timeLessonList = getResources().getStringArray(R.array.time_lessons);
+        }
 
+        context = getApplicationContext();
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -53,23 +63,13 @@ public abstract class MainActivity extends ActionBarActivity {
         setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.toolbar));
 
         activity = this.getParent();
-        mTitle = mDrawerTitle = getTitle();
         mScreenTitles = getResources().getStringArray(R.array.screen_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        String currentDateTimeString = DateFormat.getDateInstance().format(new Date());
+        setDrawerListHeader();
 
-        View headerView = getLayoutInflater().inflate(R.layout.drawer_list_header, null);
-        ImageView imageView = (ImageView)headerView.findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.menu_image_1);
-        TextView currentDate = (TextView)headerView.findViewById(R.id.current_date);
-        currentDate.setText(currentDateTimeString);
-        mDrawerList.addHeaderView(headerView);
-
-        // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mScreenTitles));
+        mDrawerList.setAdapter(new DrawerListAdapter(mScreenTitles, this));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -82,6 +82,8 @@ public abstract class MainActivity extends ActionBarActivity {
                 R.string.drawer_close /* "close drawer" description */
         );
 
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
+
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
@@ -89,17 +91,33 @@ public abstract class MainActivity extends ActionBarActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FragmentManager fm = getSupportFragmentManager();
-        fragment = getCurrentFragment();
+        if(ScheduleFactory.loadSavedShedule(getApplicationContext())){
+            fragment = new ViewPagerFragment();
+        }else{
+            fragment = getCurrentFragment();
+        }
         fm.beginTransaction().add(R.id.fragmentContainer, fragment).commit();
 
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+    private void setDrawerListHeader(){
+        String currentDateTimeString = DateFormat.getDateInstance().format(new Date());
+        String dayLongName = Calendar.getInstance().getDisplayName(
+                Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+        View headerView = getLayoutInflater().inflate(R.layout.drawer_list_header, null);
+        ImageView imageView = (ImageView)headerView.findViewById(R.id.imageView);
+        imageView.setImageResource(R.drawable.menu_image_1);
+        TextView currentDate = (TextView)headerView.findViewById(R.id.current_date);
+        currentDate.setText(currentDateTimeString);
+        TextView currentDay = (TextView)headerView.findViewById(R.id.current_day);
+        currentDay.setText(dayLongName);
+        mDrawerList.addHeaderView(headerView);
+    }
 
-        if (mDrawerToggle != null)
-            mDrawerToggle.syncState();
+    @Override
+    public void onStop(){
+        super.onStop();
+        Serealisation.writeToFile(getApplicationContext(), ScheduleFactory.getSchedule());
     }
 
     @Override
@@ -114,8 +132,14 @@ public abstract class MainActivity extends ActionBarActivity {
     /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
+        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            mDrawerLayout.closeDrawer(mDrawerList);
+            mDrawerLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    selectItem(position);
+                }
+            }, 300);
         }
     }
 
@@ -124,22 +148,21 @@ public abstract class MainActivity extends ActionBarActivity {
         // Update the main content by replacing fragments
         Fragment fragment = null;
         switch (position) {
-            case 0:
-                break;
             case 1:
                 fragment = new MyListGroupFragment();
                 break;
             case 2:
-                Fragment updatableFragment = getSupportFragmentManager().findFragmentByTag(MyListGroupFragment.FRAGMENT_ID);
-                if (updatableFragment != null) {
-                    ((ViewPagerFragment)updatableFragment).update();
-                }
+                if(!ScheduleFactory.getSchedule().hasSavedSchedule())
+                    fragment = new ViewPagerFragment();
+                else
+                    Toast.makeText(this, getResources().getString(R.string.group_not_selected),
+                        Toast.LENGTH_SHORT).show();
                 break;
             case 3:
                 fragment = new AboutFragment();
                 break;
             case 4:
-                fragment = new MapUniversity();
+                fragment = new MapFragment();
                 break;
             default:
                 break;
@@ -157,8 +180,6 @@ public abstract class MainActivity extends ActionBarActivity {
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mScreenTitles[position-1]);
-        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     @Override
@@ -170,8 +191,14 @@ public abstract class MainActivity extends ActionBarActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggles
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if (mDrawerToggle != null)
+            mDrawerToggle.syncState();
     }
 
 }

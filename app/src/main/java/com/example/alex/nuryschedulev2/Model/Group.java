@@ -2,15 +2,18 @@ package com.example.alex.nuryschedulev2.Model;
 
 import android.content.Context;
 
+import com.example.alex.nuryschedulev2.MainActivity;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by alex on 11.06.15.
  */
-public class Group {
+public class Group implements Serializable {
 
     private String name;
     private String address;
@@ -36,7 +39,7 @@ public class Group {
     }
 
     public static String getAddress(String groupName) {
-        if(listGroups != null)
+        if(listGroups == null) getGroupList(MainActivity.context);
             for(Group group: listGroups){
                 if(group.getName().equals(groupName))
                     return group.getAddress();

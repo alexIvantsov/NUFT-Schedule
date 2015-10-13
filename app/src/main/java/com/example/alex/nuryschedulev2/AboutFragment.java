@@ -20,8 +20,8 @@ public class AboutFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        getActivity().setTitle(getResources().getStringArray(R.array.screen_array)[2]);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -31,4 +31,5 @@ public class AboutFragment extends android.support.v4.app.Fragment {
 
         return v;
     }
+
 }

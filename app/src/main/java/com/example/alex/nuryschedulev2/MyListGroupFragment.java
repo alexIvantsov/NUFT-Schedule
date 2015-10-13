@@ -31,10 +31,9 @@ public class MyListGroupFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getActivity().setTitle(getResources().getStringArray(R.array.screen_array)[0]);
         if(groups==null)
             groups = Group.getGroupList(this.getActivity());
-
         GroupListAdapter adapter = new GroupListAdapter(groups);
         setListAdapter(adapter);
     }

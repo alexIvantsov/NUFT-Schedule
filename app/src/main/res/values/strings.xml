@@ -5,9 +5,9 @@
 
     <string-array name="screen_array">
         <item>Список груп</item>
-        <item>Оновити розклад</item>
+        <item>Поточна група</item>
         <item>Про додаток</item>
-        <item>Карта університету</item>
+        <item>Університет на карті</item>
     </string-array>
 
     <string-array name="time_lessons">
@@ -31,12 +31,14 @@
         <item>Понеділок</item>
         <item>Вівторок</item>
         <item>Середа</item>
-        <item>Четверг</item>
-        <item>Пятниця</item>
+        <item>Четвер</item>
+        <item>П\u0027ятниця</item>
         <item>Субота</item>
     </string-array>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="file_name">schedule.dat</string>
+    <string name="group_not_selected">Спочатку оберіть групу!</string>
 
 </resources>

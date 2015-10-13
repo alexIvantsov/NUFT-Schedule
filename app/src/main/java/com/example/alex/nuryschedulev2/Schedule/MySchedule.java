@@ -1,4 +1,4 @@
-package com.example.alex.nuryschedulev2;
+package com.example.alex.nuryschedulev2.Schedule;
 
 import com.example.alex.nuryschedulev2.Model.Day;
 import com.example.alex.nuryschedulev2.Model.Group;
@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -22,17 +23,17 @@ import java.util.Arrays;
 /**
  * Created by alex on 12.06.15.
  */
-public class Schedule {
+public class MySchedule implements Schedule, Serializable {
 
     private String groupName;
     private Day[] firstWeek;
     private Day[] secondWeek;
-    public static Schedule schedule;
+    public static MySchedule schedule;
 
-    public Schedule(String groupName){
-        this.groupName = groupName;
+    public MySchedule(){
         this.firstWeek = new Day[6];
         this.secondWeek = new Day[6];
+        this.groupName = "";
 
     }
 
@@ -40,6 +41,19 @@ public class Schedule {
         splitSchedule();
     }
 
+    @Override
+    public boolean hasSavedSchedule() {
+        return groupName.equals("");
+    }
+
+    @Override
+    public boolean loadShedule(String name) {
+        this.groupName = name;
+        splitSchedule();
+        return true;
+    }
+
+    @Override
     public ArrayList<Day> getWeek(int numberWeek){
         if(numberWeek == 0){
             return new ArrayList<Day>(Arrays.asList(firstWeek));
@@ -48,6 +62,14 @@ public class Schedule {
         }
     }
 
+    @Override
+    public boolean isLoadedScheduleGruopName(String name) {
+
+        if(name.equals(this.groupName)) return true;
+        return false;
+    }
+
+    @Override
     public String getGroupName() {
         return groupName;
     }

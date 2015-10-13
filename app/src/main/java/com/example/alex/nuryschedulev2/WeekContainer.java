@@ -6,16 +6,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.alex.nuryschedulev2.Model.Day;
 import com.example.alex.nuryschedulev2.Model.Lesson;
+import com.example.alex.nuryschedulev2.Schedule.Schedule;
+import com.example.alex.nuryschedulev2.Schedule.ScheduleFactory;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by alex on 16.06.15.
@@ -23,21 +29,25 @@ import java.util.ArrayList;
 public class WeekContainer extends Fragment {
 
     private int numberWeek;
+    private int viewHeight;
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ArrayList<Day> days_list;
+        ScrollView scrollView = (ScrollView)getView().findViewById(R.id.scroll_view);
         try {
-            days_list = Schedule.schedule.getWeek(numberWeek);
+            days_list = ScheduleFactory.getSchedule().getWeek(numberWeek);
         }
         catch (NullPointerException e){
             return;
         }
+        boolean flag = false;
+        viewHeight = 0;
         for(Day day: days_list) {
             try {
                 LinearLayout weekContainer = (LinearLayout) getView().findViewById(R.id.week_container);
-                View myView = getActivity().getLayoutInflater().inflate(R.layout.list_lessons, null);
+                final View myView = getActivity().getLayoutInflater().inflate(R.layout.list_lessons, null);
                 ListView listLessons = (ListView) myView.findViewById(R.id.list_lessons);
 
                 ArrayList<Lesson> lessons_list = day.getLessonList();;
@@ -50,12 +60,37 @@ public class WeekContainer extends Fragment {
                 listLessons.setAdapter(new LessonListAdapter(lessons_list));
                 getListViewSize(listLessons);
                 weekContainer.addView(myView);
+                String dayLongName = Calendar.getInstance().getDisplayName(
+                        Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+                String currentday = getResources().getStringArray(R.array.day_name)[day.getDayId()];
+
+                if(dayLongName.equals(currentday)) flag = true;
+
+                if(!flag) {
+                    ViewTreeObserver viewTreeObserver = myView.getViewTreeObserver();
+                    if (viewTreeObserver.isAlive()) {
+                        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @Override
+                            public void onGlobalLayout() {
+                                myView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                viewHeight += myView.getHeight();
+                            }
+                        });
+                    }
+                }
                 listLessons.setOnItemClickListener(new MyOnItemClickListener(getActivity().getApplicationContext()));
             } catch (NullPointerException e) {
 
             }
         }
+        final ScrollView mainScroll = (ScrollView) getView().findViewById(R.id.scroll_view);
 
+        ViewTreeObserver vto = scrollView.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            public void onGlobalLayout() {
+                mainScroll.smoothScrollTo(0, viewHeight);
+            }
+        });
     }
 
     @Override

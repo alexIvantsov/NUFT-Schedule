@@ -16,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.example.alex.nuryschedulev2.Schedule.Schedule;
+import com.example.alex.nuryschedulev2.Schedule.ScheduleFactory;
 
 /**
  * Created by alex on 11.06.15.
@@ -24,7 +26,7 @@ public class ViewPagerFragment extends Fragment {
 
     private static ViewPager mViewPager;
     private static FrameLayout progress;
-    public String groupName;
+    public String groupName = "";
 
     public ViewPagerFragment (){
         this.setRetainInstance(true);
@@ -34,7 +36,18 @@ public class ViewPagerFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
-        groupName = bundle.getString("Name");
+
+        progress = (FrameLayout) getView().findViewById(R.id.progress);
+        progress.setVisibility(View.GONE);
+
+        if(getArguments() != null) {
+            groupName = bundle.getString("Name");
+            if(!ScheduleFactory.getSchedule().isLoadedScheduleGruopName(groupName)) update();
+        }else{
+            groupName = ScheduleFactory.getSchedule().getGroupName();
+        }
+
+        getActivity().setTitle(groupName);
 
         FragmentManager fm = getActivity().getSupportFragmentManager();
         mViewPager = (ViewPager)view.findViewById(R.id.view_pager);
@@ -72,12 +85,6 @@ public class ViewPagerFragment extends Fragment {
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip)getView().findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(mViewPager);
-
-        progress = (FrameLayout)getView().findViewById(R.id.progress);
-        progress.setVisibility(View.GONE);
-        if(Schedule.schedule == null || !Schedule.schedule.getGroupName().equals(groupName)) {
-            update();
-        }
     }
 
     @Override
@@ -112,8 +119,8 @@ public class ViewPagerFragment extends Fragment {
 
         @Override
         protected Void doInBackground(String... params) {
-            Schedule.schedule = new Schedule(params[0]);
-            Schedule.schedule.getSchedule(params[0]);
+            //Schedule.schedule = new Schedule(params[0]);
+            ScheduleFactory.getSchedule().loadShedule(params[0]);
             return null;
         }
         @Override

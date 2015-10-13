@@ -18,11 +18,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by Oleksandr on 13.09.2015.
  */
-public class MapUniversity extends Fragment {
+public class MapFragment extends Fragment {
 
     SupportMapFragment mapFragment;
     GoogleMap map;
-    final String TAG = "myLogs";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public class MapUniversity extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        getActivity().setTitle(getResources().getStringArray(R.array.screen_array)[3]);
         mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
         map = mapFragment.getMap();
         if (map == null) {
