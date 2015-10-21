@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.alex.nuryschedulev2" >
+    package="com.example.alex.nuryschedulev2"
+    android:installLocation="internalOnly">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -49,5 +50,20 @@
             android:name=".MapUniversity.MapActivity"
             android:screenOrientation="portrait"/>
     </application>
+
+    <receiver
+        android:name="LessonWidget"
+        android:icon="@mipmap/ic_nuft"
+        android:label="@string/widget_name">
+        <intent-filter>
+            <action
+                android:name="android.appwidget.action.APPWIDGET_UPDATE">
+            </action>
+        </intent-filter>
+        <meta-data
+            android:name="android.appwidget.provider"
+            android:resource="@xml/widget_metadata">
+        </meta-data>
+    </receiver>
 
 </manifest>

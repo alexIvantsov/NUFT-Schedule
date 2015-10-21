@@ -55,5 +55,6 @@
     <string name="group_not_selected">Спочатку оберіть групу!</string>
     <string name="setting_color_header">Колір</string>
     <string name="setting_color_description">Торкніться, щоб змінити колір верхньої панелі</string>
+    <string name="widget_name">Розклад ХЕТОП</string>
 
 </resources>
