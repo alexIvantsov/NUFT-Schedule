@@ -20,10 +20,9 @@ public class MyOnItemClickListener implements AdapterView.OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(context, "Clicked!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "Clicked!", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(context, LessonItemFragmentActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.getApplicationContext().startActivity(intent);
+//        Intent intent = new Intent(context, LessonItemFragmentActivity.class);
+//        context.getApplicationContext().startActivity(intent);
     }
 }

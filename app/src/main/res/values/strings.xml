@@ -1,29 +1,35 @@
 <resources>
     <string name="app_name">Розклад ХЕТОП</string>
-    <string name="no_internet_access">Немає доступу до інтернет!</string>
-    <string name="about_application"> Розклад ХЕТОП \r\n \r\n Lessons schedule for HETOP students \r\n \r\n Version 1.0</string>
+    <string name="no_internet_access">Перевірте з\'єднання з інтернет!</string>
+    <string name="try_again">Спробувати ще раз</string>
+    <string name="show_saved">Показати збережений розклад</string>
+    <string name="no_saved_schedule">Збереженого розкладу не знайдено!</string>
+    <string name="description">Додаток для спрощення життя студента харчового університету.
+        Оберіть свою групу, та переглядайте ваш розклад занять у зручному форматі.
+        Забудьте про страшні excel файли назавжди :)</string>
+    <string name="idea_author">Сакун Тетяна</string>
+    <string name="developer">Іванцов Олександр</string>
+    <string name="testers">Калпакчі Дмитро\n Данильчук Руслан</string>
+    <string name="version">1.0.0</string>
 
     <string-array name="screen_array">
         <item>Список груп</item>
         <item>Поточна група</item>
-        <item>Про додаток</item>
         <item>Університет на карті</item>
+        <item>Налаштування</item>
+        <item>Про додаток</item>
     </string-array>
 
-    <string-array name="time_lessons">
-        <item>8.15 - 9.35</item>
-        <item>9.50 - 11.10</item>
-        <item>11.20 - 12.40</item>
-        <item>13.20 - 14.40</item>
-        <item>14.50 - 16.10</item>
-        <item>16.30 - 17.50</item>
-        <item>18.00 - 19.20</item>
-        <item>19.30 - 20.50</item>
-    </string-array>
+
 
     <string-array name="number_week">
         <item>Перший тиждень</item>
         <item>Другий тиждень</item>
+    </string-array>
+
+    <string-array name="map_type">
+        <item>Карта Google</item>
+        <item>Схематична карта</item>
     </string-array>
 
     <string-array name="day_name">
@@ -36,9 +42,18 @@
         <item>Субота</item>
     </string-array>
 
+    <string-array name="enable_colors">
+        <item>red</item>
+        <item>blue</item>
+        <item>green</item>
+        <item>black</item>
+    </string-array>
+
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="file_name">schedule.dat</string>
     <string name="group_not_selected">Спочатку оберіть групу!</string>
+    <string name="setting_color_header">Колір</string>
+    <string name="setting_color_description">Торкніться, щоб змінити колір верхньої панелі</string>
 
 </resources>

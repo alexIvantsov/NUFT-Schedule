@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.alex.nuryschedulev2"
-        minSdkVersion 19
-        targetSdkVersion 22
+        minSdkVersion 14
+        targetSdkVersion 18
         versionCode 1
         versionName "1.0"
     }
@@ -20,8 +20,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile files('libs/Parse-1.10.3.jar')
+    compile files('libs/bolts-android-1.2.1.jar')
 }

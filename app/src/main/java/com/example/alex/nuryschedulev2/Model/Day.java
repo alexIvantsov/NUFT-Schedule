@@ -4,17 +4,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/**
- * Created by alex on 12.06.15.
- */
 public class Day implements Serializable {
 
     private ArrayList<Lesson> lessonList;
-    private int dayId;
+    private String name;
+    private int dayNumber;
 
-    public Day(int dayId){
-        lessonList = new ArrayList<Lesson>();
-        this.dayId = dayId;
+    public Day(String name, int dayNumber){
+        lessonList = new ArrayList<>();
+        this.name = name;
+        this.dayNumber = dayNumber;
+    }
+
+    public int getDayNumber() {
+        return dayNumber;
     }
 
     public ArrayList<Lesson> getLessonList() {
@@ -25,7 +28,7 @@ public class Day implements Serializable {
         Collections.sort(lessonList);
     }
 
-    public int getDayId() {
-        return dayId;
+    public String getDayName() {
+        return name;
     }
 }

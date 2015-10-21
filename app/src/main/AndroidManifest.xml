@@ -17,7 +17,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_nuft"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/AppTheme">
         <uses-library android:name="com.google.android.maps" />
 
         <meta-data
@@ -29,8 +29,7 @@
             android:value="@integer/google_play_services_version">
         </meta-data>
         <activity
-            android:name=".ListGroupsFragmentActivity"
-            android:label="@string/app_name"
+            android:name=".BeginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +38,15 @@
         </activity>
         <activity
             android:name=".LessonItemFragmentActivity"
-            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Settings.SettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".About.AboutActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MapUniversity.MapActivity"
             android:screenOrientation="portrait"/>
     </application>
 

@@ -1,33 +1,9 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     </style>
 
-    <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme"
-        parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
-
-        <!-- Support library compatibility -->
-        <item name="actionBarStyle">@style/MyActionBar</item>
+    <style name="ToolbarStyle" parent="@style/Theme.AppCompat.NoActionBar">
     </style>
-
-    <!-- ActionBar styles -->
-    <style name="MyActionBar"
-        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/red</item>
-
-        <!-- Support library compatibility -->
-        <item name="background">@color/red</item>
-    </style>
-
-
-    <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <!-- Поставим нужный нам цвет -->
-        <item name="android:background">@color/red</item>
-    </style>
-
-
 </resources>

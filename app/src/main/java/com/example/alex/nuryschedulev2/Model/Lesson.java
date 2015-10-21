@@ -2,9 +2,6 @@ package com.example.alex.nuryschedulev2.Model;
 
 import java.io.Serializable;
 
-/**
- * Created by alex on 12.06.15.
- */
 public class Lesson implements Comparable<Lesson>, Serializable {
 
     private int numberLesson;
@@ -12,15 +9,17 @@ public class Lesson implements Comparable<Lesson>, Serializable {
     private String typeLesson;
     private String placeLesson;
     private String timeLesson;
+    private String teacher;
 
     public static String [] timeLessonList;
 
-    public Lesson(int numberLesson, String nameLesson, String typeLesson, String placeLesson, String timeLessn){
+    public Lesson(int numberLesson, String nameLesson, String typeLesson, String placeLesson, String timeLessn, String teacher){
         this.nameLesson = nameLesson;
         this.numberLesson = numberLesson;
         this.placeLesson = placeLesson;
         this.timeLesson = timeLessn;
         this.typeLesson = typeLesson;
+        this.teacher = teacher;
     }
 
     public int getNumberLesson() {
@@ -43,10 +42,13 @@ public class Lesson implements Comparable<Lesson>, Serializable {
         return timeLesson;
     }
 
+    public String getTeacher() {
+        return teacher;
+    }
+
     @Override
     public int compareTo(Lesson another) {
-        int res = Integer.compare(this.numberLesson, another.getNumberLesson());
-        return res;
+        return Integer.valueOf(this.numberLesson).compareTo(Integer.valueOf(another.numberLesson));
     }
 }
 

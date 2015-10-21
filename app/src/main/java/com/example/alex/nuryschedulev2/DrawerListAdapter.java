@@ -5,6 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+
+import com.example.alex.nuryschedulev2.HelpClasses.TextViewPlus;
+
 /**
  * Created by Oleksandr on 07.10.2015.
  */
@@ -40,9 +43,12 @@ public class DrawerListAdapter extends ArrayAdapter<String> {
             case 1:
                 return R.drawable.ic_action_action_done;
             case 2:
-                return R.drawable.ic_action_action_info;
-            case 3:
                 return R.drawable.ic_action_maps_map;
+            case 3:
+                return R.drawable.ic_action_action_settings;
+            case 4:
+                return R.drawable.ic_action_action_info;
+
             default:
                 return 0;
         }

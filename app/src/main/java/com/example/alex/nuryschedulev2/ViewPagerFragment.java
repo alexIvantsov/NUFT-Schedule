@@ -7,51 +7,44 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
-
 import com.astuetz.PagerSlidingTabStrip;
-import com.example.alex.nuryschedulev2.Schedule.Schedule;
+import com.example.alex.nuryschedulev2.HelpClasses.InternetAccess;
+import com.example.alex.nuryschedulev2.HelpClasses.MyPreferences;
 import com.example.alex.nuryschedulev2.Schedule.ScheduleFactory;
 
-/**
- * Created by alex on 11.06.15.
- */
 public class ViewPagerFragment extends Fragment {
 
     private static ViewPager mViewPager;
     private static FrameLayout progress;
     public String groupName = "";
+    private FragmentManager fragmentManager;
 
     public ViewPagerFragment (){
         this.setRetainInstance(true);
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        fragmentManager = getActivity().getSupportFragmentManager();
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        progress = (FrameLayout)getView().findViewById(R.id.progress);
+
+        groupName = MyPreferences.load(MyPreferences.saved_group_name, getActivity());
         Bundle bundle = getArguments();
+        boolean fromCloud = bundle.getBoolean("load_from_cloud");
 
-        progress = (FrameLayout) getView().findViewById(R.id.progress);
-        progress.setVisibility(View.GONE);
+        new AsTask().execute(fromCloud);
 
-        if(getArguments() != null) {
-            groupName = bundle.getString("Name");
-            if(!ScheduleFactory.getSchedule().isLoadedScheduleGruopName(groupName)) update();
-        }else{
-            groupName = ScheduleFactory.getSchedule().getGroupName();
-        }
-
-        getActivity().setTitle(groupName);
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
         mViewPager = (ViewPager)view.findViewById(R.id.view_pager);
-        mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
             @Override
             public int getCount() {
                 return 2;
@@ -59,7 +52,7 @@ public class ViewPagerFragment extends Fragment {
 
             @Override
             public Fragment getItem(int pos) {
-                return WeekContainer.newInstance(pos);
+                return WeekContainer.newInstance(pos+1);
             }
 
             @Override
@@ -94,64 +87,46 @@ public class ViewPagerFragment extends Fragment {
         return rootView;
     }
 
-    public void update(){
-        if(InternetAccess.isOnline(this.getActivity().getApplicationContext())) {
-            progress.setVisibility(View.GONE);
-            (new AsTask()).execute(groupName);
-            progress.setVisibility(View.VISIBLE);
-        }else{
-            // message about no internet access
-            Toast toast = Toast.makeText(this.getActivity().getApplicationContext(), R.string.no_internet_access, Toast.LENGTH_SHORT);
-            toast.show();
-
-            //return to the first fragment
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.fragmentContainer, new MyListGroupFragment()).commit();
-        }
-    }
-
-    private class AsTask extends AsyncTask<String, Void, Void> {
+    private class AsTask extends AsyncTask<Boolean, Void, Boolean> {
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute(){
             super.onPreExecute();
+            progress.setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected Void doInBackground(String... params) {
-            //Schedule.schedule = new Schedule(params[0]);
-            ScheduleFactory.getSchedule().loadShedule(params[0]);
-            return null;
+        protected Boolean doInBackground(Boolean... params) {
+            if (params[0]){
+                if (!InternetAccess.isOnline(getActivity())) {
+                    showFragmentNoInternetAccess();
+                } else {
+                    return ScheduleFactory.getSchedule(getActivity()).updateShedule(groupName);
+                }
+            }else {
+                return ScheduleFactory.getSchedule(getActivity()).loadShedule("");
+            }
+            return false;
         }
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            mViewPager.getAdapter().notifyDataSetChanged();
-            progress.setVisibility(View.GONE);
+            if(result && getActivity() != null) {
+                getActivity().setTitle(ScheduleFactory.getSchedule(getActivity()).getGroupName());
+                mViewPager.getAdapter().notifyDataSetChanged();
+                progress.setVisibility(View.GONE);
+            }else{
+                showFragmentNoInternetAccess();
+            }
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu, menu);
+
+    private void showFragmentNoInternetAccess(){
+        Bundle bundle = getArguments();
+        bundle.putString("class_name", this.getClass().getName());
+        Fragment fragment = new NoInternetAccessFragment();
+        fragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh:
-                update();
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-
-    }
-
 }

@@ -9,8 +9,10 @@ import java.util.ArrayList;
 public interface Schedule {
 
     public boolean hasSavedSchedule();
+    public boolean hasLoadedSchedule();
     public boolean loadShedule(String name);
+    public boolean updateShedule(String name);
     public ArrayList<Day> getWeek(int number);
-    public boolean isLoadedScheduleGruopName(String name);
     public String getGroupName();
+    public ArrayList<String> getGroupsNameList();
 }

@@ -2,16 +2,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:foo="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
     android:id="@+id/drawer_header">
 
     <ImageView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="188dp"
         android:id="@+id/imageView"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="top|center_vertical" />
 
-    <com.example.alex.nuryschedulev2.TextViewPlus
+    <com.example.alex.nuryschedulev2.HelpClasses.TextViewPlus
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
@@ -23,7 +24,7 @@
         android:textColor="#ffffffff"
         foo:customFont="segoe_ui_regular.ttf"/>
 
-    <com.example.alex.nuryschedulev2.TextViewPlus
+    <com.example.alex.nuryschedulev2.HelpClasses.TextViewPlus
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"

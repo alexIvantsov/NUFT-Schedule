@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="blue" type="color">#FF33B5E5</item>
-    <item name="red" type="color">#c5da1308</item>
-    <item name="light4_red" type="color">#C5FFCFBC</item>
-    <item name="clear" type="color">#00FFFFFF</item>
+    <item name="header_blue" type="color">#E0326EFF</item>
+    <item name="header_red" type="color">#c5da1308</item>
+    <item name="header_green" type="color">#FF039629</item>
+    <item name="header_black" type="color">#FF2d2d2d</item>
+    <item name="toolBar_red" type="color">#ffe10207</item>
+    <item name="toolBar_blue" type="color">#FF326EFF</item>
+    <item name="toolBar_green" type="color">#059429</item>
+    <item name="toolBar_black" type="color">#FF101010</item>
+    <item name="selected_item_blue" type="color">#FF5788FF</item>
+    <item name="selected_item_red" type="color">#FFFF1308</item>
+    <item name="selected_item_green" type="color">#FF01b42f</item>
+    <item name="selected_item_black" type="color">#FF464646</item>
+    <item name="white" type="color">#FFFFFF</item>
+    <item name="light_gray" type="color">#FFF1F1F1</item>
     <item name="black" type="color">#FF000000</item>
-    <item name="toolBar_color" type="color">#ffe10207</item>
+
 
 </resources>
